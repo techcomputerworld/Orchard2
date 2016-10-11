@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using Orchard.Environment.Shell;
 
-namespace Orchard.Environment.Shell
+namespace Orchard.AspNetCore.Modules
 {
     public static class RunningShellTableExtensions
     {

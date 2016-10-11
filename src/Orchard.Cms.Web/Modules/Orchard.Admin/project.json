@@ -8,7 +8,9 @@
     "Orchard.DependencyInjection": "2.0.0-*",
     "Orchard.DisplayManagement": "2.0.0-*",
     "Orchard.Settings": "2.0.0-*",
-    "Orchard.Environment.Navigation": "2.0.0-*"
+    "Orchard.Environment.Navigation": "2.0.0-*",
+    "Microsoft.AspNetCore.Modules.Abstractions": "1.0.0-*"
+
   },
   "buildOptions": {
     "define": [ "TRACE" ],

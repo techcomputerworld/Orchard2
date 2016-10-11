@@ -4,11 +4,12 @@
     "System.Linq": "4.1.0-*",
     "Microsoft.Extensions.DependencyInjection": "1.0.0",
     "Microsoft.AspNetCore.Identity": "1.0.0",
-    "Microsoft.AspNetCore.Mvc.Modules.Hosting": "1.0.0-*",
+    "Microsoft.AspNetCore.Mvc.Modules": "1.0.0-*",
     "Orchard.Environment.Navigation": "2.0.0-*",
     "Orchard.DisplayManagement": "2.0.0-*",
     "Orchard.Security.Abstractions": "1.0.0-*",
-    "Orchard.Data": "2.0.0-*"
+    "Orchard.Data": "2.0.0-*",
+    "Microsoft.AspNetCore.Modules.Abstractions": "1.0.0-*"
   },
   "buildOptions": {
     "define": [ "TRACE" ],

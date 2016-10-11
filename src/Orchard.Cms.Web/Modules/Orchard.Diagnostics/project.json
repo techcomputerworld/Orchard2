@@ -7,7 +7,8 @@
     "Microsoft.AspNetCore.Mvc.Modules.Abstractions": "1.0.0-*",
     "Microsoft.AspNetCore.Diagnostics": "1.0.0",
     "Microsoft.AspNetCore.Mvc.ViewFeatures": "1.0.1",
-    "Orchard.DisplayManagement": "2.0.0-*"
+    "Orchard.DisplayManagement": "2.0.0-*",
+    "Microsoft.AspNetCore.Modules.Abstractions": "1.0.0-*"
   },
   "buildOptions": {
     "debugType": "portable"

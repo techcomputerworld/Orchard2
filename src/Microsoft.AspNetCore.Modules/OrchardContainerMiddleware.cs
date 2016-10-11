@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Orchard.AspNetCore.Modules;
 using Orchard.Environment.Shell;
 using Orchard.Events;
+using Orchard.Hosting;
 using Orchard.Hosting.ShellBuilders;
 
-namespace Orchard.Hosting
+namespace Microsoft.AspNetCore.Modules
 {
     /// <summary>
     /// This middleware replaces the default service provider by the one for the current tenant

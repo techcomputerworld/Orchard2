@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Modules;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Orchard;
 
 namespace HelloWorld
 {

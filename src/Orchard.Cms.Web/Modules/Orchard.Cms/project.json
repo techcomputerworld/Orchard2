@@ -10,7 +10,9 @@
     "Orchard.DisplayManagement": "2.0.0-*",
     "Orchard.BackgroundTasks": "1.0.0-*",
     "Orchard.ResourceManagement": "1.0.0-*",
-    "Orchard.Environment.Shell.Data": "2.0.0-*"
+    "Orchard.Environment.Shell.Data": "2.0.0-*",
+    "Microsoft.AspNetCore.Mvc.Modules": "1.0.0-*"
+
   },
   "buildOptions": {
     "debugType": "portable"
