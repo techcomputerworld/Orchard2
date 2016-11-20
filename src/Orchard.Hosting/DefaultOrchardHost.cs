@@ -43,15 +43,7 @@ namespace Orchard.Hosting
             _logger = logger;
         }
 
-        public void Initialize()
-        {
-            BuildCurrent();
-        }
-
-        /// <summary>
-        /// Ensures shells are activated, or re-activated if extensions have changed
-        /// </summary>
-        IDictionary<string, ShellContext> BuildCurrent()
+        public Task InitializeAsync()
         {
             if (_shellContexts == null)
             {
@@ -65,7 +57,7 @@ namespace Orchard.Hosting
                 }
             }
 
-            return _shellContexts;
+            return Task.CompletedTask;
         }
 
         public ShellContext GetOrCreateShellContext(ShellSettings settings)

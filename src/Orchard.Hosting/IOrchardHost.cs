@@ -10,7 +10,7 @@ namespace Orchard.Hosting
         /// <summary>
         /// Ensure that all the <see cref="ShellContext"/> are created and available to process requests. 
         /// </summary>
-        void Initialize();
+        Task InitializeAsync();
 
         /// <summary>
         /// Returns an existing <see cref="ShellContext"/> or creates a new one if necessary. 
