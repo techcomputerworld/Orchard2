@@ -195,7 +195,6 @@ namespace Orchard.Environment.Extensions
 
                 if (extension.IsError && L.IsEnabled(LogLevel.Warning))
                 {
-
                     L.LogError("No suitable loader found for extension \"{0}\"", extensionInfo.Id);
                 }
 

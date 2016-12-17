@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 using Orchard.Environment.Extensions.Features;
 using Orchard.Environment.Extensions.Loaders;
+using Orchard.Environment.Extensions.Loaders.Ambient;
 using Orchard.Environment.Extensions.Manifests;
 
 namespace Orchard.Environment.Extensions
@@ -34,16 +35,14 @@ namespace Orchard.Environment.Extensions
 
 
                 services.AddSingleton<IExtensionLoader, AmbientExtensionLoader>();
-                services.AddSingleton<IExtensionLoader, DynamicExtensionLoader>();
-                services.AddSingleton<IExtensionLoader, PrecompiledExtensionLoader>();
+                //services.AddSingleton<IExtensionLoader, PrecompiledExtensionLoader>();
+                //services.AddSingleton<IExtensionLoader, DynamicExtensionLoader>();
 
-                services.Configure<ExtensionProbingOptions>(options =>
-                {
-                    options.RootProbingName = rootProbingName;
-                    options.DependencyProbingDirectoryName = dependencyProbingDirectoryName;
-                });
-
-                services.AddSingleton<IExtensionLibraryService, ExtensionLibraryService>();
+                //services.Configure<ExtensionProbingOptions>(options =>
+                //{
+                //    options.RootProbingName = rootProbingName;
+                //    options.DependencyProbingDirectoryName = dependencyProbingDirectoryName;
+                //});
             }
 
             return services;

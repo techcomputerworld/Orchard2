@@ -1,16 +1,12 @@
 ﻿{
   "version": "2.0.0-*",
   "dependencies": {
-    "Microsoft.AspNetCore.Mvc.Modules.Abstractions": "1.0.0-*",
-    "Microsoft.AspNetCore.Mvc.Razor": "1.1.0",
-    "Microsoft.Extensions.Logging.Abstractions": "1.1.0",
-    "Orchard.DependencyInjection": "2.0.0-*",
     "Orchard.Environment.Extensions.Loaders.Abstractions": "2.0.0-*"
   },
   "buildOptions": {
     "define": [ "TRACE" ],
-     "debugType": "portable",
-   "warningsAsErrors": true
+    "debugType": "portable",
+    "warningsAsErrors": true
   },
   "frameworks": {
     "netstandard1.6": {

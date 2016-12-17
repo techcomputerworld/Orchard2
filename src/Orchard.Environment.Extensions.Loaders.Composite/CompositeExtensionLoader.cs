@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
 
-namespace Orchard.Environment.Extensions.Loaders
+namespace Orchard.Environment.Extensions.Loaders.Composite
 {
     internal class CompositeExtensionLoader : IExtensionLoader
     {
@@ -22,25 +22,9 @@ namespace Orchard.Environment.Extensions.Loaders
             _extensionLoaders = extensionLoaders.ToArray();
         }
 
-        public string Name
-        {
-            get
-            {
-                throw new NotSupportedException();
-            }
-        }
-
-        public int Order
-        {
-            get
-            {
-                throw new NotSupportedException();
-            }
-        }
-
         public ExtensionEntry Load(IExtensionInfo extensionInfo)
         {
-            foreach (var loader in _extensionLoaders.OrderByDescending(x => x.Order))
+            foreach (var loader in _extensionLoaders)
             {
                 var entry = loader.Load(extensionInfo);
                 if (entry != null)
@@ -48,6 +32,7 @@ namespace Orchard.Environment.Extensions.Loaders
                     return entry;
                 }
             }
+
             return new ExtensionEntry { ExtensionInfo = extensionInfo, IsError = true };
         }
     }
