@@ -43,16 +43,22 @@
             </div>
         </div>
 
-        <div id="ta-left-sidebar">
-            @await RenderSectionAsync("Navigation", required: false)
+        <div class="ta-content-wrapper">
+            <div id="ta-left-sidebar">
+                @await RenderSectionAsync("Navigation", required: false)
+            </div>
+
+            <div class="ta-content">
+                @await RenderSectionAsync("Messages", required: false)
+
+                @await RenderBodyAsync()
+
+            </div>
+
+            <div id="ta-right-sidebar">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </div>
         </div>
-
-        <div class="ta-content">
-            @await RenderSectionAsync("Messages", required: false)
-
-            @await RenderBodyAsync()
-        </div>
-
     </div><!-- /.ta-wrapper -->
 
     @await RenderSectionAsync("Footer", required: false)
