@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26120.4
+VisualStudioVersion = 15.0.26201.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{30F6375E-2B17-4D1F-8F49-E5F4294F6DB7}"
 	ProjectSection(SolutionItems) = preProject
@@ -153,7 +153,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orchard.SiteSettings.Core",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orchard.Menu.Abstractions", "src\Orchard.Menu.Abstractions\Orchard.Menu.Abstractions.csproj", "{F67204C5-61EC-49DF-9122-4520D9076651}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TheBlogTheme", "src\Orchard.Cms.Web\Themes\TheBlogTheme\TheBlogTheme.xproj", "{9EB6EB7C-1C07-4DA3-9E91-AF1B1A92539D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheBlogTheme", "src\Orchard.Cms.Web\Themes\TheBlogTheme\TheBlogTheme.csproj", "{9EB6EB7C-1C07-4DA3-9E91-AF1B1A92539D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Orchard.Scripting.Abstractions", "src\Orchard.Scripting.Abstractions\Orchard.Scripting.Abstractions.csproj", "{9A7DBD64-6F4F-4685-953D-9ACD79ED34FF}"
 EndProject
