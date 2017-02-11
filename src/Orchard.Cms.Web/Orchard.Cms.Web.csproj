@@ -14,9 +14,47 @@
   <ItemGroup>
     <ProjectReference Include="../Microsoft.AspNetCore.Mvc.Modules.Hosting/Microsoft.AspNetCore.Mvc.Modules.Hosting.csproj" />
     <ProjectReference Include="../Orchard.Environment.Shell.Data/Orchard.Environment.Shell.Data.csproj" />
-    <ProjectReference Include="../Orchard.DisplayManagement/Orchard.DisplayManagement.csproj" />
     <ProjectReference Include="../Orchard.Hosting.Console/Orchard.Hosting.Console.csproj" />
     <ProjectReference Include="../Orchard.Recipes.Abstractions/Orchard.Recipes.Abstractions.csproj" />
+    <ProjectReference Include="Modules\Lucene\Lucene.csproj" />
+    <ProjectReference Include="Modules\Orchard.Admin\Orchard.Admin.csproj" />
+    <ProjectReference Include="Modules\Orchard.Alias\Orchard.Alias.csproj" />
+    <ProjectReference Include="Modules\Orchard.Autoroute\Orchard.Autoroute.csproj" />
+    <ProjectReference Include="Modules\Orchard.Body\Orchard.Body.csproj" />
+    <ProjectReference Include="Modules\Orchard.Commons\Orchard.Commons.csproj" />
+    <ProjectReference Include="Modules\Orchard.ContentFields\Orchard.ContentFields.csproj" />
+    <ProjectReference Include="Modules\Orchard.ContentPreview\Orchard.ContentPreview.csproj" />
+    <ProjectReference Include="Modules\Orchard.Contents\Orchard.Contents.csproj" />
+    <ProjectReference Include="Modules\Orchard.ContentTypes\Orchard.ContentTypes.csproj" />
+    <ProjectReference Include="Modules\Orchard.Demo\Orchard.Demo.csproj" />
+    <ProjectReference Include="Modules\Orchard.Deployment.Remote\Orchard.Deployment.Remote.csproj" />
+    <ProjectReference Include="Modules\Orchard.Deployment\Orchard.Deployment.csproj" />
+    <ProjectReference Include="Modules\Orchard.Diagnostics\Orchard.Diagnostics.csproj" />
+    <ProjectReference Include="Modules\Orchard.DynamicCache\Orchard.DynamicCache.csproj" />
+    <ProjectReference Include="Modules\Orchard.Feeds\Orchard.Feeds.csproj" />
+    <ProjectReference Include="Modules\Orchard.Indexing\Orchard.Indexing.csproj" />
+    <ProjectReference Include="Modules\Orchard.Lists\Orchard.Lists.csproj" />
+    <ProjectReference Include="Modules\Orchard.Markdown\Orchard.Markdown.csproj" />
+    <ProjectReference Include="Modules\Orchard.Menu\Orchard.Menu.csproj" />
+    <ProjectReference Include="Modules\Orchard.Modules\Orchard.Modules.csproj" />
+    <ProjectReference Include="Modules\Orchard.Navigation\Orchard.Navigation.csproj" />
+    <ProjectReference Include="Modules\Orchard.Recipes\Orchard.Recipes.csproj" />
+    <ProjectReference Include="Modules\Orchard.Resources\Orchard.Resources.csproj" />
+    <ProjectReference Include="Modules\Orchard.Roles\Orchard.Roles.csproj" />
+    <ProjectReference Include="Modules\Orchard.Scripting\Orchard.Scripting.csproj" />
+    <ProjectReference Include="Modules\Orchard.Settings\Orchard.Settings.csproj" />
+    <ProjectReference Include="Modules\Orchard.Setup\Orchard.Setup.csproj" />
+    <ProjectReference Include="Modules\Orchard.Tenants\Orchard.Tenants.csproj" />
+    <ProjectReference Include="Modules\Orchard.Themes\Orchard.Themes.csproj" />
+    <ProjectReference Include="Modules\Orchard.Title\Orchard.Title.csproj" />
+    <ProjectReference Include="Modules\Orchard.Tokens.Content\Orchard.Tokens.Content.csproj" />
+    <ProjectReference Include="Modules\Orchard.Tokens\Orchard.Tokens.csproj" />
+    <ProjectReference Include="Modules\Orchard.Users\Orchard.Users.csproj" />
+    <ProjectReference Include="Modules\Orchard.XmlRpc\Orchard.XmlRpc.csproj" />
+    <ProjectReference Include="Themes\SafeMode\SafeMode.csproj" />
+    <ProjectReference Include="Themes\TheAdmin\TheAdmin.csproj" />
+    <ProjectReference Include="Themes\TheBlogTheme\TheBlogTheme.csproj" />
+    <ProjectReference Include="Themes\TheTheme\TheTheme.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.0" />
