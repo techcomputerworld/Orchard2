@@ -16,7 +16,7 @@ namespace Orchard.Parser.Yaml
         public IDictionary<string, string> Parse(Stream stream)
         {
             var data = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
+            
             var yamlConfig = new YamlStream();
             yamlConfig.Load(new StreamReader(stream));
 

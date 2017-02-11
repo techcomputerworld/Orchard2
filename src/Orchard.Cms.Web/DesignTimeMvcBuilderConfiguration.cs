@@ -1,11 +1,8 @@
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder.Internal;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Orchard.Environment.Extensions;
 
 namespace Orchard.Cms.Web
 {
@@ -27,12 +24,6 @@ namespace Orchard.Cms.Web
 
             var app = new ApplicationBuilder(serviceProvider);
             startUp.Configure(app, loggerFactory);
-
-            builder.AddRazorOptions(options =>
-            {
-                var extensionLibraryService = services.BuildServiceProvider().GetService<IExtensionLibraryService>();
-                ((List<MetadataReference>)options.AdditionalCompilationReferences).AddRange(extensionLibraryService.MetadataReferences());
-            });
         }
     }
 }

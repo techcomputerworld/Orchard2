@@ -42,8 +42,6 @@ namespace Orchard.Environment.Extensions
                     options.RootProbingName = rootProbingName;
                     options.DependencyProbingDirectoryName = dependencyProbingDirectoryName;
                 });
-
-                services.AddSingleton<IExtensionLibraryService, ExtensionLibraryService>();
             }
 
             return services;

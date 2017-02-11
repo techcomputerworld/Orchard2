@@ -1,12 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
-using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Orchard.Environment.Commands;
@@ -65,16 +61,6 @@ namespace Microsoft.AspNetCore.Mvc.Modules.Hosting
 
             services.AddTransient<IFilterProvider, DependencyFilterProvider>();
             services.AddTransient<IApplicationModelProvider, ModuleAreaRouteConstraintApplicationModelProvider>();
-
-            services.Configure<RazorViewEngineOptions>(configureOptions: options =>
-            {
-                var serviceProvider = services.BuildServiceProvider();
-                var extensionLibraryService = serviceProvider.GetService<IExtensionLibraryService>();
-
-                ((List<MetadataReference>)options.AdditionalCompilationReferences).AddRange(extensionLibraryService.MetadataReferences());
-
-                (serviceProvider as IDisposable)?.Dispose();
-            });
 
             // Register the configuration object for modules to register options with it
             if (configuration != null)
