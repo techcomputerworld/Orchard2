@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace HelloWorld.Controllers
+namespace Orchard.Mvc.HelloWorld.Controllers
 {
     public class HomeController : Controller
     {

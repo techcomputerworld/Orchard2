@@ -6,6 +6,8 @@
     "Microsoft.AspNetCore.Modules": "1.0.0-*",
     "Microsoft.AspNetCore.Server.IISIntegration": "1.1.0",
     "Microsoft.AspNetCore.Server.Kestrel": "1.1.0",
+    "Microsoft.Extensions.Configuration.FileExtensions": "1.1.0",
+    "Microsoft.Extensions.Configuration.Json": "1.1.0",
     "Microsoft.Extensions.Logging.Console": "1.1.0",
     "NETStandard.Library": "1.6.1",
     "Orchard.Mvc.HelloWorld": "1.0.0-*"

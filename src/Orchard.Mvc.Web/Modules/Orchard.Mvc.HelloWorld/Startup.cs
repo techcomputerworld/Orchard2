@@ -40,7 +40,7 @@ namespace Orchard.Mvc.HelloWorld
             routes.MapAreaRoute
             (
                 name: "Home",
-                areaName: "HelloWorld",
+                areaName: "Orchard.Mvc.HelloWorld",
                 template: "",
                 defaults: new { controller = "Home", action = "Index" }
             );
