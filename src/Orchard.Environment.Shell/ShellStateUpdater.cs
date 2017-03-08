@@ -1,14 +1,11 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.Extensions.Logging;
 using Orchard.DeferredTasks;
 using Orchard.Environment.Extensions;
 using Orchard.Environment.Shell.State;
 using Orchard.Events;
 using Orchard.Environment.Extensions.Features;
-using Orchard.Environment.Extensions.Manifests;
 using System.Threading.Tasks;
-using Orchard.Environment.Extensions.Utility;
 
 namespace Orchard.Environment.Shell
 {

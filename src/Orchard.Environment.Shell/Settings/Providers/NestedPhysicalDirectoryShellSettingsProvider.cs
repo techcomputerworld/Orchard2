@@ -1,16 +1,17 @@
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Orchard.Parser;
 using Orchard.Parser.Yaml;
-using System.Collections.Generic;
-using System.IO;
-using System;
 
-namespace Orchard.Environment.Shell
+namespace Orchard.Environment.Shell.Settings.Providers
 {
-    public class ShellSettingsManager : IShellSettingsManager
+    public class NestedPhysicalDirectoryShellSettingsProvider : IShellSettingsProvider
     {
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IOptions<ShellOptions> _optionsAccessor;
@@ -18,7 +19,7 @@ namespace Orchard.Environment.Shell
 
         private const string SettingsFileNameFormat = "Settings.{0}";
 
-        public ShellSettingsManager(
+        public NestedPhysicalDirectoryShellSettingsProvider(
             IHostingEnvironment hostingEnvironment,
             IOptions<ShellOptions> optionsAccessor,
             ILogger<ShellSettingsManager> logger)
@@ -28,27 +29,26 @@ namespace Orchard.Environment.Shell
             _logger = logger;
         }
 
-        IEnumerable<ShellSettings> IShellSettingsManager.LoadSettings()
+        public IEnumerable<ShellSettings> LoadSettings()
         {
-            var shellSettings = new List<ShellSettings>();
-
-            foreach (var tenant in 
-                _hostingEnvironment.ContentRootFileProvider.GetDirectoryContents(
+            var tenants = _hostingEnvironment
+                .ContentRootFileProvider
+                .GetDirectoryContents(
                     Path.Combine(
-                        _optionsAccessor.Value.ShellsRootContainerName, 
-                        _optionsAccessor.Value.ShellsContainerName)))
-            {
+                        _optionsAccessor.Value.ShellsRootContainerName,
+                        _optionsAccessor.Value.ShellsContainerName));
+
+            var shellSettings = new ConcurrentBag<ShellSettings>();
+
+            Parallel.ForEach(tenants, tenant => {
                 if (_logger.IsEnabled(LogLevel.Information))
                 {
                     _logger.LogInformation("ShellSettings found in '{0}', attempting to load.", tenant.Name);
                 }
+
                 var configurationContainer =
                     new ConfigurationBuilder()
                         .SetBasePath(tenant.PhysicalPath)
-                        .AddJsonFile(string.Format(SettingsFileNameFormat, "json"),
-                            true)
-                        .AddXmlFile(string.Format(SettingsFileNameFormat, "xml"),
-                            true)
                         .AddYamlFile(string.Format(SettingsFileNameFormat, "txt"),
                             false);
 
@@ -60,29 +60,19 @@ namespace Orchard.Environment.Shell
                 {
                     _logger.LogInformation("Loaded ShellSettings for tenant '{0}'", shellSetting.Name);
                 }
-            }
+            });
 
             return shellSettings;
         }
 
-        void IShellSettingsManager.SaveSettings(ShellSettings shellSettings)
+        public void SaveSettings(ShellSettings shellSettings)
         {
-            if (shellSettings == null)
-            {
-                throw new ArgumentNullException(nameof(shellSettings));
-            }
-
-            if (_logger.IsEnabled(LogLevel.Information))
-            {
-                _logger.LogInformation("Saving ShellSettings for tenant '{0}'", shellSettings.Name);
-            }
-
-            var tenantPath = 
+            var tenantPath =
                 Path.Combine(
                     _hostingEnvironment.ContentRootPath,
                     _optionsAccessor.Value.ShellsRootContainerName,
-                    _optionsAccessor.Value.ShellsContainerName, 
-                    shellSettings.Name, 
+                    _optionsAccessor.Value.ShellsContainerName,
+                    shellSettings.Name,
                     string.Format(SettingsFileNameFormat, "txt"));
 
             var configurationProvider = new YamlConfigurationProvider(new YamlConfigurationSource
@@ -100,11 +90,6 @@ namespace Orchard.Environment.Shell
             }
 
             configurationProvider.Commit();
-
-            if (_logger.IsEnabled(LogLevel.Information))
-            {
-                _logger.LogInformation("Saved ShellSettings for tenant '{0}'", shellSettings.Name);
-            }
         }
     }
 }

@@ -2,7 +2,7 @@
 using Orchard.Environment.Shell.Models;
 using System;
 
-namespace Orchard.Environment.Shell
+namespace Orchard.Environment.Shell.Settings
 {
     public static class ShellSettingsSerializer
     {

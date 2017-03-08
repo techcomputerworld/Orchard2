@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Modules;
 using Microsoft.AspNetCore.Mvc.Modules;
 using Orchard.Environment.Extensions;
+using Orchard.Environment.Shell;
 
 namespace Orchard.Mvc.Web
 {
@@ -31,6 +32,14 @@ namespace Orchard.Mvc.Web
             // Add ASP.NET MVC and support for modules
             services.AddModuleServices(configure => configure
                 .AddConfiguration(Configuration)
+
+                .AddTenant("Default")
+                .AddTenant("Tenant Two", cfg => {
+                    cfg.WithState(Environment.Shell.Models.TenantState.Disabled);
+                })
+                .AddTenant("Tenant Three", cfg => {
+                    cfg.WithState(Environment.Shell.Models.TenantState.Running);
+                    })
                 .WithAllFeatures()
             );
         }
