@@ -1,0 +1,100 @@
+﻿@import '../../../Orchard.Resources/Assets/Bootstrap/scss/bootstrap.scss';
+
+.media-container {
+
+    .media-container-navigation {
+        @extend .col-md-3
+    }
+
+    .media-container-main {
+        @extend .col-md-9
+    }
+
+    @extend .row
+}
+
+/* Navigation */
+#media-container-navigation-menu {
+    list-style: none;
+    padding-left: 0;
+
+    ol {
+        padding-left: 1rem;
+        margin-left: 0px;
+    }
+
+    .handle {
+        color: lightgray;
+        padding: 0px 5px;
+        cursor: move;
+    }
+
+    li {
+        list-style: none;
+    }
+
+    .expand {
+        cursor: pointer;
+    }
+
+    .open {
+        transform: rotate(90deg);
+        transition-duration: 0.2s;
+    }
+
+    .empty {
+        transform: none;
+        visibility: hidden;
+    }
+
+    .closed {
+    }
+}
+
+[v-cloak] {
+    display: none
+}
+
+/* Upload button */
+.fileinput-button {
+    cursor: pointer;
+}
+
+.fileinput-button input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+/* File view */
+.media-container-main {
+    
+    ol {
+        li {
+            .media-container-main-item {
+                @extend .card;
+                margin-bottom: 16px;
+            }
+        }
+
+        img {
+            @extend .card-img-top;
+            max-height: 250px;
+            width: 100%;
+        }
+
+        list-style: none;
+        padding-left: 0;
+    }
+}
+
+.media-container-main-item-title {
+    @extend .card-block;
+    
+    span {
+        @extend .card-text;
+    }
+}

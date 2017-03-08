@@ -1,0 +1,108 @@
+﻿<script asp-src="/Orchard.Media/Scripts/media.js" asp-name="media" at="Foot" depends-on="admin, vuejs"></script>
+<style asp-src="/Orchard.Media/Styles/media.min.css" debug-src="/Orchard.Media/Styles/media.css"></style>
+<script asp-src="https://unpkg.com/vue" asp-name="vuejs" at="Foot"></script>
+
+<script asp-src="https://blueimp.github.io/jQuery-File-Upload/js/jquery.iframe-transport.js" depends-on="admin" at="Foot"></script>
+<script asp-src="https://blueimp.github.io/jQuery-File-Upload/js/jquery.fileupload.js" depends-on="admin" at="Foot"></script>
+
+<div class="media-container row">
+    <div id="navigationApp" class="media-container-navigation" v-cloak>
+
+        <div v-show="selectedFolder"> @**@
+            <label for="fileupload" class="btn btn-success fileinput-button">
+                <input id="fileupload" type="file" name="files" multiple="multiple">
+                <i class="fa fa-upload" aria-hidden="true"></i>
+                @T["Upload files..."]
+            </label>
+            <div id="progress" class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+        </div>
+
+        <h3 v-if="selectedFolder">{{ selectedFolder.name }}</h3>
+        <ol id="media-container-navigation-menu">
+            <folder v-for="folder in folders"
+                    :key="folder.path"
+                    :model="folder">
+            </folder>
+        </ol>
+    </div>
+
+    <div id="filesApp" class="media-container-main" v-cloak>
+        <h3 v-if="selectedMedia">{{ selectedMedia.fileName }}</h3>
+        <ol class="row">
+            <li v-for="media in mediaItems"
+                :key="media.name"
+                class="col-md-3"
+                v-on:click="selectMedia(media)">
+                <div class="media-container-main-item">
+                    <img v-bind:src="'/media/' + media.folder + '/' + media.fileName" />
+                    <div class="media-container-main-item-title">
+                        <span>{{ media.fileName }}</span>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<input type="hidden" id="getFoldersUrl" value="@Url.Action("GetFolders", "Admin" , new { area="Orchard.Media" })" />
+<input type="hidden" id="getMediaItemsUrl" value="@Url.Action("GetMediaItems", "Admin", new { area = "Orchard.Media" })" />
+<input type="hidden" id="uploadFiles" value="@Url.Action("Upload", "Admin", new { area = "Orchard.Media" })" />
+
+<script at="Foot" depends-on="media">
+    $(function () {
+        $('#media-container-navigation-menu')
+            .nestedSortable({
+                handle: 'i.handle',
+                items: 'li',
+                toleranceElement: '> div',
+                isTree: true,
+                relocate: function () {
+                }
+            });
+    });
+
+    $(function () {
+        $('#fileupload').fileupload({
+            dataType: 'json',
+            url: $('#uploadFiles').val(),
+            formData: function() {
+                return [{name: 'folderPath', value: navigationApp.selectedFolder.path}]
+            },
+            done: function (e, data) {
+                $.each(data.result.files, function (index, file) {
+                    filesApp.mediaItems.push(file.model)
+                });
+                $('#progress .progress-bar').css(
+                    'width',
+                    0 + '%'
+                );
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .progress-bar').css(
+                    'width',
+                    progress + '%'
+                );
+            }
+        });
+    });
+</script>
+
+<script type="text/x-template" id="folder-template">
+    <li>
+        <div>
+            <i class="handle fa fa-ellipsis-v" aria-hidden="true"></i>
+            <i v-on:click="toggle" class="expand fa fa-caret-right" v-bind:class="{open: open, closed: !open, empty: empty}"></i>
+            <a href="#" v-on:click="select">{{model.name}}</a>
+        </div>
+        <ol v-show="open">
+            <folder
+                  v-for="folder in children" 
+                  :key="folder.path"
+                  :model="folder">
+            </folder>
+        </ol>
+    </li>
+</script>
