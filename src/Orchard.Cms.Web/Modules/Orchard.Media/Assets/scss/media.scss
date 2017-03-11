@@ -13,20 +13,35 @@
     @extend .row
 }
 
+/* navbar */
+
+.upload-button {
+    label {
+        margin-bottom: 0; // there is a margin below the label that makes the navbar fattier
+    }
+}
+
 /* Navigation */
 #media-container-navigation-menu {
     list-style: none;
     padding-left: 0;
+
+    div {
+        padding: 0.2rem 0.2rem;
+
+        a {
+            color: $gray-dark;
+            text-decoration: none;
+        }
+    }
 
     ol {
         padding-left: 1rem;
         margin-left: 0px;
     }
 
-    .handle {
+    .folder {
         color: lightgray;
-        padding: 0px 5px;
-        cursor: move;
     }
 
     li {
@@ -34,12 +49,16 @@
     }
 
     .expand {
+        /* make both icons be in the center as their widths are different */
+        text-align: center;
+        width: 10px;
         cursor: pointer;
     }
 
     .open {
-        transform: rotate(90deg);
-        transition-duration: 0.2s;
+        &:before {
+            content: '\f0d7';
+        }
     }
 
     .empty {

@@ -5996,24 +5996,33 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   .hidden-print {
     display: none !important; } }
 
+/* navbar */
+.upload-button label {
+  margin-bottom: 0; }
+
 /* Navigation */
 #media-container-navigation-menu {
   list-style: none;
   padding-left: 0; }
+  #media-container-navigation-menu div {
+    padding: 0.2rem 0.2rem; }
+    #media-container-navigation-menu div a {
+      color: #292b2c;
+      text-decoration: none; }
   #media-container-navigation-menu ol {
     padding-left: 1rem;
     margin-left: 0px; }
-  #media-container-navigation-menu .handle {
-    color: lightgray;
-    padding: 0px 5px;
-    cursor: move; }
+  #media-container-navigation-menu .folder {
+    color: lightgray; }
   #media-container-navigation-menu li {
     list-style: none; }
   #media-container-navigation-menu .expand {
+    /* make both icons be in the center as their widths are different */
+    text-align: center;
+    width: 10px;
     cursor: pointer; }
-  #media-container-navigation-menu .open {
-    transform: rotate(90deg);
-    transition-duration: 0.2s; }
+  #media-container-navigation-menu .open:before {
+    content: '\f0d7'; }
   #media-container-navigation-menu .empty {
     transform: none;
     visibility: hidden; }

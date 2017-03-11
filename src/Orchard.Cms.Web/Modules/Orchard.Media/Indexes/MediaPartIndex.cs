@@ -26,7 +26,7 @@ namespace Orchard.Media.Indexes
                     {
                         // Calling Path.GetDirectoryName would convert '/' to '\'
                         var filename = Path.GetFileName(imagePart.Path);
-                        var folder = imagePart.Path.Substring(0, imagePart.Path.Length - filename.Length - 1);
+                        var folder = imagePart.Path.Substring(0, imagePart.Path.Length - filename.Length).TrimEnd('/');
 
                         return new MediaPartIndex
                         {

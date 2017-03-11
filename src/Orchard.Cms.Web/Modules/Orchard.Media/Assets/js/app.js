@@ -1,12 +1,17 @@
-﻿var navigationApp = new Vue({
+﻿var homeFolder = {
+    name: 'Media Library',
+    path: ''
+};
+
+var navigationApp = new Vue({
     el: '#navigationApp',
     data: {
         folders: [],
-        selectedFolder: null
+        selectedFolder: homeFolder
     },
     computed: {
         uploadUrl: function() {
-            return this.selectedFolder ? $('#uploadFiles').val() + "?folderPath=" + encodeURIComponent(this.selectedFolder.path) : null;
+            return this.selectedFolder ? $('#uploadFiles').val() + "?path=" + encodeURIComponent(this.selectedFolder.path) : null;
         }
     },
     mounted : function () {
@@ -28,7 +33,42 @@
             filesApp.loadFolder(folder);
         },
         uploadUrl: function() {
-            return this.selectedFolder ? $('#uploadFiles').val() + "?folderPath=" + encodeURIComponent(this.selectedFolder.path) : null;
+            return this.selectedFolder ? $('#uploadFiles').val() + "?path=" + encodeURIComponent(this.selectedFolder.path) : null;
+        },
+        selectRoot: function() {
+            this.selectedFolder = homeFolder;
+            filesApp.loadFolder(homeFolder);
+        }
+    }
+});
+
+var breadcrumdApp = new Vue({
+    el: '#media-breadcrumd',
+    data: {
+    },
+    computed: {
+        selectedFolder: function() {
+            return navigationApp.selectedFolder;
+        },
+        isHome: function() {
+            return navigationApp.selectedFolder == homeFolder;
+        },
+        parents: function() {
+          var p = [];
+          parent = this.selectedFolder;
+          while(parent && parent != homeFolder) {
+              p.unshift(parent);
+              parent = parent.parent;
+          }
+          return p;
+        }
+    },
+    methods: {
+        selectRoot: function() {
+            navigationApp.selectRoot();
+        },
+        select: function(folder) {
+            navigationApp.selectFolder(folder);
         }
     }
 });
@@ -56,6 +96,9 @@ Vue.component('folder', {
                 method: 'GET',
                 success: function (data) {
                     self.children = data;
+                    self.children.forEach(function(f) {
+                        f.parent = self.model;
+                    });
                     self.empty = data.length == 0;
                 },
                 error: function (error) {
@@ -80,7 +123,6 @@ var filesApp = new Vue({
     mounted : function () {
     },
     methods: {
-
         loadFolder: function(folder) {
             this.selectedMedia = null;
             var self = this;

@@ -19,6 +19,7 @@ namespace Orchard.StorageProviders.FileSystem
         public string AbsolutePath => _publicPathPrefix + "/" + _path;
         public string Path => _path;
         public string Name => _fileInfo.Name;
+        public string Folder => _path.Substring(0, _path.Length - Name.Length).TrimEnd('/');
         public DateTime LastModified => _fileInfo.LastWriteTimeUtc;
         public long Length => (_fileInfo as FileInfo)?.Length ?? 0;
         public bool IsDirectory => _fileInfo is DirectoryInfo;

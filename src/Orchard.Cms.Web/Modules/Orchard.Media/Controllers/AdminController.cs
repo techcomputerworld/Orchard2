@@ -25,15 +25,35 @@ namespace Orchard.Media.Controllers
             return View();
         }
 
-        public async Task<JsonResult> GetFolders(string path)
+        public async Task<IActionResult> GetFolders(string path, [FromServices] IAuthorizationService authorizationService)
         {
+            if (!await authorizationService.AuthorizeAsync(User, Permissions.ManageOwnMedia))
+            {
+                return Unauthorized();
+            }
+
+            if (string.IsNullOrEmpty(path))
+            {
+                path = "";
+            }
+
             var content = (await _mediaFileStore.GetDirectoryContentAsync(path)).Where(x => x.IsDirectory);
 
             return Json(content.ToArray());
         }
 
-        public async Task<JsonResult> GetMediaItems(string path, [FromServices] YesSql.Core.Services.ISession session)
+        public async Task<IActionResult> GetMediaItems(string path, [FromServices] IAuthorizationService authorizationService, [FromServices] YesSql.Core.Services.ISession session)
         {
+            if (!await authorizationService.AuthorizeAsync(User, Permissions.ManageOwnMedia))
+            {
+                return Unauthorized();
+            }
+
+            if (string.IsNullOrEmpty(path))
+            {
+                path = "";
+            }
+
             var media = await session
                 .QueryIndexAsync<MediaPartIndex>(x => x.Folder == path.ToLowerInvariant())
                 .OrderBy(x => x.FileName)
@@ -45,7 +65,7 @@ namespace Orchard.Media.Controllers
         [HttpPost]
         [IgnoreAntiforgeryToken]
         public async Task<ActionResult> Upload(
-            string folderPath, 
+            string path, 
             string contentType, 
             ICollection<IFormFile> files, 
             [FromServices] IMediaService mediaService,
@@ -55,6 +75,11 @@ namespace Orchard.Media.Controllers
             if (!await authorizationService.AuthorizeAsync(User, Permissions.ManageOwnMedia))
             {
                 return Unauthorized();
+            }
+
+            if (string.IsNullOrEmpty(path))
+            {
+                path = "";
             }
 
             var result = new List<object>();
@@ -68,7 +93,7 @@ namespace Orchard.Media.Controllers
 
                 try
                 {
-                    var mediaFilePath = _mediaFileStore.Combine(folderPath, file.FileName);
+                    var mediaFilePath = _mediaFileStore.Combine(path, file.FileName);
 
                     using (var stream = file.OpenReadStream())
                     {
@@ -97,7 +122,7 @@ namespace Orchard.Media.Controllers
                         model = new MediaPartIndex
                         {
                             FileName = mediaFile.Name,
-                            Folder = mediaFile.Path,
+                            Folder = mediaFile.Folder,
                             Length = mediaFile.Length,
                             MimeType = file.ContentType
                         }

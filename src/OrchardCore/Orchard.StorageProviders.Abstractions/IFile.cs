@@ -8,6 +8,7 @@ namespace Orchard.StorageProviders
         string AbsolutePath { get; }
         string Path { get; }
         string Name { get; }
+        string Folder { get; }
         long Length { get; }
         DateTime LastModified { get; }
         bool IsDirectory { get; }
