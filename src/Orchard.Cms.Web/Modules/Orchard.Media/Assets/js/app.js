@@ -42,37 +42,6 @@ var navigationApp = new Vue({
     }
 });
 
-var breadcrumdApp = new Vue({
-    el: '#media-breadcrumd',
-    data: {
-    },
-    computed: {
-        selectedFolder: function() {
-            return navigationApp.selectedFolder;
-        },
-        isHome: function() {
-            return navigationApp.selectedFolder == homeFolder;
-        },
-        parents: function() {
-          var p = [];
-          parent = this.selectedFolder;
-          while(parent && parent != homeFolder) {
-              p.unshift(parent);
-              parent = parent.parent;
-          }
-          return p;
-        }
-    },
-    methods: {
-        selectRoot: function() {
-            navigationApp.selectRoot();
-        },
-        select: function(folder) {
-            navigationApp.selectFolder(folder);
-        }
-    }
-});
-
 // define the folder component
 Vue.component('folder', {
   template: '#folder-template',
@@ -147,3 +116,38 @@ var filesApp = new Vue({
     }
 });
 
+
+
+var toolbarApp = new Vue({
+    el: '#media-toolbar',
+    data: {
+    },
+    computed: {
+        selectedFolder: function() {
+            return navigationApp.selectedFolder;
+        },
+        isHome: function() {
+            return navigationApp.selectedFolder == homeFolder;
+        },
+        parents: function() {
+          var p = [];
+          parent = this.selectedFolder;
+          while(parent && parent != homeFolder) {
+              p.unshift(parent);
+              parent = parent.parent;
+          }
+          return p;
+        },
+        selectedMedia: function() {
+            return filesApp.selectedMedia;
+        }
+    },
+    methods: {
+        selectRoot: function() {
+            navigationApp.selectRoot();
+        },
+        select: function(folder) {
+            navigationApp.selectFolder(folder);
+        }
+    }
+});

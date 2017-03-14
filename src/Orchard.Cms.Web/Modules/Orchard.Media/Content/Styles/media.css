@@ -6051,3 +6051,10 @@ a.text-gray-dark:focus, a.text-gray-dark:hover {
   .media-container-main ol img {
     max-height: 250px;
     width: 100%; }
+
+/* Toolbar */
+.breadcrumb button {
+  cursor: pointer; }
+
+.breadcrumb-item.active {
+  margin-right: 1rem; }

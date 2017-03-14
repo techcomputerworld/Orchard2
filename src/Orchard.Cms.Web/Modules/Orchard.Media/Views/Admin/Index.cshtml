@@ -20,17 +20,19 @@
     </form>
 </nav>
 
-<div id="media-breadcrumd" class="row">
-    <div class="col-12">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a :href="isHome ? null : '#'" v-on:click="selectRoot">@T["Media Library"]</a></li>
-            <li v-for="(folder, i) in parents" v-cloak
-                class="breadcrumb-item active">
-                <a :href="parents.length - i == 1 ? null : '#'" v-on:click="select(folder)">{{ folder.name }}</a>
-            </li>
-        </ol>
+<nav id="media-toolbar" class="breadcrumb">
+    <span class="breadcrumb-item"  v-bind:class="{ active: isHome}"><a :href="isHome ? null : '#'" v-on:click="selectRoot">@T["Media Library"]</a></span>
+    <span v-for="(folder, i) in parents" v-cloak
+          class="breadcrumb-item"
+          v-bind:class="{active: parents.length - i == 1}">
+        <a :href="parents.length - i == 1 ? null : '#'" v-on:click="select(folder)">{{ folder.name }}</a>
+    </span>
+    <div class="btn-group">
+        <button v-cloak type="button" class="btn btn-secondary btn-sm"><i class="fa fa-plus text-muted"></i></button>
+        <button v-cloak v-show="!isHome" type="button" class="btn btn-secondary btn-sm"><i class="fa fa-trash text-muted"></i></button>
     </div>
-</div>
+    <code class="pull-right" v-if="selectedMedia">{{ selectedMedia.fileName }}</code>
+</nav>
 
 <div class="media-container row">
 
@@ -52,7 +54,6 @@
     </div>
 
     <div id="filesApp" class="media-container-main" v-cloak>
-        <h3 v-if="selectedMedia">{{ selectedMedia.fileName }}</h3>
         <ol class="row">
             <li v-for="media in mediaItems"
                 :key="media.name"

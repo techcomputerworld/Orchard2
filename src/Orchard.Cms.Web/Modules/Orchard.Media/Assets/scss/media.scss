@@ -117,3 +117,14 @@
         @extend .card-text;
     }
 }
+
+/* Toolbar */
+.breadcrumb {
+    button {
+        cursor: pointer;
+    }
+}
+
+.breadcrumb-item.active {
+    margin-right: 1rem;
+}
