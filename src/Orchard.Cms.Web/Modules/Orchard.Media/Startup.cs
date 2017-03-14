@@ -9,6 +9,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Orchard.ContentManagement;
 using Orchard.Data.Migration;
+using Orchard.Environment.Navigation;
 using Orchard.Environment.Shell;
 using Orchard.Media.Indexes;
 using Orchard.Media.Models;
@@ -35,6 +36,7 @@ namespace Orchard.Media
 
             services.AddScoped<IIndexProvider, MediaPartIndexProvider>();
             services.AddScoped<IDataMigration, Migrations>();
+            services.AddScoped<INavigationProvider, AdminMenu>();
 
             services.AddSingleton<ContentPart, ImagePart>();
 
