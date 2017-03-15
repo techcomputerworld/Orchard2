@@ -65,9 +65,9 @@ namespace Orchard.Media.Controllers
         [HttpPost]
         [IgnoreAntiforgeryToken]
         public async Task<ActionResult> Upload(
-            string path, 
-            string contentType, 
-            ICollection<IFormFile> files, 
+            string path,
+            string contentType,
+            ICollection<IFormFile> files,
             [FromServices] IMediaService mediaService,
             [FromServices] IAuthorizationService authorizationService,
             [FromServices] IContentManager contentManager)
@@ -87,7 +87,7 @@ namespace Orchard.Media.Controllers
             // TODO: Validate file extensions
 
             // Loop through each file in the request
-            foreach(var file in files)
+            foreach (var file in files)
             {
                 // TODO: support clipboard
 
@@ -144,7 +144,7 @@ namespace Orchard.Media.Controllers
 
         [HttpPost]
         public async Task<IActionResult> DeleteFolder(
-            string path, 
+            string path,
             [FromServices] IAuthorizationService authorizationService,
             [FromServices] YesSql.Core.Services.ISession session,
             [FromServices] IContentManager contentManager)
@@ -172,12 +172,50 @@ namespace Orchard.Media.Controllers
                 if (await authorizationService.AuthorizeAsync(User, Permissions.ManageOwnMedia, mediaItem))
                 {
                     await contentManager.RemoveAsync(mediaItem);
-                }                
+                }
             }
 
             await _mediaFileStore.TryDeleteFolderAsync(path);
 
             return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateFolder(
+            string path, string name,
+            [FromServices] IAuthorizationService authorizationService)
+        {
+            if (!await authorizationService.AuthorizeAsync(User, Permissions.ManageOwnMedia))
+            {
+                return Unauthorized();
+            }
+
+            if (string.IsNullOrEmpty(path))
+            {
+                path = "";
+            }
+
+            var mediaFolder = await _mediaFileStore.GetFolderAsync(path);
+
+            if (mediaFolder == null || !mediaFolder.IsDirectory)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, "Cannot find path");
+            }
+
+            var newPath = _mediaFileStore.Combine(path, name);
+
+            mediaFolder = await _mediaFileStore.GetFolderAsync(newPath);
+
+            if (mediaFolder != null)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Folder already exist");
+            }
+
+            await _mediaFileStore.TryCreateFolderAsync(newPath);
+
+            mediaFolder = await _mediaFileStore.GetFolderAsync(newPath);
+
+            return Json(mediaFolder);
         }
     }
 }

@@ -21,6 +21,12 @@ namespace Orchard.Media.Indexes
             context.For<MediaPartIndex>()
                 .Map(contentItem =>
                 {
+
+                    if(!contentItem.Latest)
+                    {
+                        return null;
+                    }
+
                     var imagePart = contentItem.As<ImagePart>();
 
                     if (imagePart != null)

@@ -90,12 +90,17 @@
 
 /* File view */
 .media-container-main {
-    
+
     ol {
         li {
             .media-container-main-item {
                 @extend .card;
                 margin-bottom: 16px;
+            }
+
+            .selected {
+                @extend .card-inverse;
+                @extend .card-primary;
             }
         }
 

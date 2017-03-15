@@ -3,6 +3,7 @@
     path: ''
 }
 
+var bus = new Vue();
 
 // define the folder component
 var folderComponent = Vue.component('folder', {
@@ -13,10 +14,31 @@ var folderComponent = Vue.component('folder', {
     data: function () {
         return {
             open: false,
-            empty: false,
             children: null,
             parent: null
         }
+    },
+    computed: {
+        empty: function () {
+            return this.children && this.children.length == 0;
+        }
+    },
+    created: function () {
+        var self = this;
+        bus.$on('delete', function (folder) {
+            if (self.children) {
+                var index = self.children && self.children.indexOf(folder)
+                if (index > -1) {
+                    self.children.splice(index, 1)
+                }
+            }
+        });
+
+        bus.$on('addFolder', function (target, folder) {
+            if (self.model == target) {
+                self.children.push(folder);
+            }
+        });
     },
     methods: {
         toggle: function () {
@@ -28,7 +50,6 @@ var folderComponent = Vue.component('folder', {
                     method: 'GET',
                     success: function (data) {
                         self.children = data;
-                        self.empty = data.length == 0;
                     },
                     error: function (error) {
                         emtpy = false;
@@ -114,15 +135,35 @@ var mediaApp = new Vue({
                     __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
                 },
                 success: function (data) {
-                    var parent = folder.$parent;
-                    var array = parent.children;
-                    array.splice(array.indexOf(folder), 1);
-                    mediaApp.selectFolder(parent);
+                    bus.$emit('delete', folder);
                 },
                 error: function (error) {
                     alert(JSON.stringify(error));
                 }
             });
+        },
+        createFolder: function () {
+            $('#createFolderModal').modal('show');
+            $('.modal-body input').val('').focus();
+
+            $('#modalFooterOk').on('click', function (e) {
+                var name = $('.modal-body input').val();
+
+                $.ajax({
+                    url: $('#createFolderUrl').val() + "?path=" + encodeURIComponent(mediaApp.selectedFolder.path) + "&name=" + encodeURIComponent(name),
+                    method: 'POST',
+                    data: {
+                        __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
+                    },
+                    success: function (data) {
+                        bus.$emit('addFolder', mediaApp.selectedFolder, data);
+                        $('#createFolderModal').modal('hide');
+                    },
+                    error: function (error) {
+                        alert(JSON.stringify(error));
+                    }
+                });
+            });            
         }
     }
 });

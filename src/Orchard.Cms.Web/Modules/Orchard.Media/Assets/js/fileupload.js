@@ -3,11 +3,11 @@
         dataType: 'json',
         url: $('#uploadFiles').val(),
         formData: function() {
-            return [{name: 'path', value: navigationApp.selectedFolder.path}]
+            return [{name: 'path', value: mediaApp.selectedFolder.path}]
         },
         done: function (e, data) {
             $.each(data.result.files, function (index, file) {
-                filesApp.mediaItems.push(file.model)
+                mediaApp.mediaItems.push(file.model)
             });
             $('#progress .progress-bar').css(
                 'width',

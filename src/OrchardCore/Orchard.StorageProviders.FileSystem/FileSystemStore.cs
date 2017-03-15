@@ -54,7 +54,7 @@ namespace Orchard.StorageProviders.FileSystem
         {
             try
             {
-                Directory.Delete(GetPhysicalPath(subpath));
+                Directory.Delete(GetPhysicalPath(subpath), true);
                 return Task.FromResult(true);
             }
             catch
