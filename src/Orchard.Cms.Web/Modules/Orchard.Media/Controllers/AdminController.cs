@@ -141,5 +141,43 @@ namespace Orchard.Media.Controllers
 
             return Json(new { files = result.ToArray() });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteFolder(
+            string path, 
+            [FromServices] IAuthorizationService authorizationService,
+            [FromServices] YesSql.Core.Services.ISession session,
+            [FromServices] IContentManager contentManager)
+        {
+            if (!await authorizationService.AuthorizeAsync(User, Permissions.ManageOwnMedia))
+            {
+                return Unauthorized();
+            }
+
+            if (string.IsNullOrEmpty(path))
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Cannot delete root media folder");
+            }
+
+            var mediaFolder = await _mediaFileStore.GetFolderAsync(path);
+
+            if (mediaFolder == null || !mediaFolder.IsDirectory)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Cannot delete path");
+            }
+
+            var mediaItems = await session.QueryAsync<ContentItem, MediaPartIndex>(x => x.Folder.StartsWith(path.ToLowerInvariant())).List();
+            foreach (var mediaItem in mediaItems)
+            {
+                if (await authorizationService.AuthorizeAsync(User, Permissions.ManageOwnMedia, mediaItem))
+                {
+                    await contentManager.RemoveAsync(mediaItem);
+                }                
+            }
+
+            await _mediaFileStore.TryDeleteFolderAsync(path);
+
+            return Ok();
+        }
     }
 }

@@ -7,6 +7,7 @@ namespace Orchard.Media.Indexes
 {
     public class MediaPartIndex : MapIndex
     {
+        public string ContentItemId { get; set; }
         public string MimeType { get; set; }
         public string Folder { get; set; }
         public string FileName { get; set; }
@@ -30,9 +31,11 @@ namespace Orchard.Media.Indexes
 
                         return new MediaPartIndex
                         {
+                            ContentItemId = contentItem.ContentItemId,
                             MimeType = imagePart.MimeType.ToLowerInvariant(),
                             Folder = folder,
-                            FileName = filename
+                            FileName = filename,
+                            Length = imagePart.Length
                         };
                     }
 

@@ -10,8 +10,15 @@ namespace Orchard.StorageProviders
         /// Checks if the given file exists within the file store.
         /// </summary>
         /// <param name="subpath">The relative path within the file system.</param>
-        /// <returns>A <see cref="IFile"/> object representing the result of .</returns>
+        /// <returns>A <see cref="IFile"/> object representing the file.</returns>
         Task<IFile> GetFileAsync(string subpath);
+
+        /// <summary>
+        /// Checks if the given folder exists within the file store.
+        /// </summary>
+        /// <param name="subpath">The relative path within the file system.</param>
+        /// <returns>A <see cref="IFile"/> object representing the folder.</returns>
+        Task<IFile> GetFolderAsync(string subpath);
 
         /// <summary>
         /// Retrieves a within the file store for a public url.

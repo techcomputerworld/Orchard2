@@ -3,108 +3,92 @@
 ** Any changes made directly to this file will be overwritten next time its asset group is processed by Gulp.
 */
 
-var homeFolder = {
+var root = {
     name: 'Media Library',
     path: ''
-};
+}
 
-var navigationApp = new Vue({
-    el: '#navigationApp',
-    data: {
-        folders: [],
-        selectedFolder: homeFolder
+
+// define the folder component
+var folderComponent = Vue.component('folder', {
+    template: '#folder-template',
+    props: {
+        model: Object
     },
-    computed: {
-        uploadUrl: function() {
-            return this.selectedFolder ? $('#uploadFiles').val() + "?path=" + encodeURIComponent(this.selectedFolder.path) : null;
+    data: function () {
+        return {
+            open: false,
+            empty: false,
+            children: null,
+            parent: null
         }
     },
-    mounted : function () {
-        var self = this;
-        $.ajax({
-            url: $('#getFoldersUrl').val(),
-            method: 'GET',
-            success: function (data) {
-                self.folders = data;
-            },
-            error: function (error) {
-                alert(JSON.stringify(error));
-            }
-        });
-    },
     methods: {
-        selectFolder : function (folder) {
-            this.selectedFolder = folder;
-            filesApp.loadFolder(folder);
+        toggle: function () {
+            this.open = !this.open
+            var self = this;
+            if (this.open && !this.children) {
+                $.ajax({
+                    url: $('#getFoldersUrl').val() + "?path=" + encodeURIComponent(self.model.path),
+                    method: 'GET',
+                    success: function (data) {
+                        self.children = data;
+                        self.empty = data.length == 0;
+                    },
+                    error: function (error) {
+                        emtpy = false;
+                        alert(JSON.stringify(error));
+                    }
+                });
+            }
         },
-        uploadUrl: function() {
-            return this.selectedFolder ? $('#uploadFiles').val() + "?path=" + encodeURIComponent(this.selectedFolder.path) : null;
-        },
-        selectRoot: function() {
-            this.selectedFolder = homeFolder;
-            filesApp.loadFolder(homeFolder);
+        select: function () {
+            mediaApp.selectFolder(this.model);
         }
     }
 });
 
-// define the folder component
-Vue.component('folder', {
-  template: '#folder-template',
-  props: {
-    model: Object
-  },
-  data: function () {
-    return {
-        open: false,
-        empty: false,
-        children: null
-    }
-  },
-  methods: {
-    toggle: function () {
-        this.open = !this.open
-        var self = this;
-        if (this.open && !this.children) {
-            $.ajax({
-                url: $('#getFoldersUrl').val() + "?path=" + encodeURIComponent(self.model.path),
-                method: 'GET',
-                success: function (data) {
-                    self.children = data;
-                    self.children.forEach(function(f) {
-                        f.parent = self.model;
-                    });
-                    self.empty = data.length == 0;
-                },
-                error: function (error) {
-                    emtpy = false;
-                    alert(JSON.stringify(error));
-                }
-            });
+var mediaApp = new Vue({
+    el: '#mediaApp',
+    data: {
+        root: root,
+        selectedFolder: root,
+        mediaItems: [],
+        selectedMedia: null
+    },
+    computed: {
+        isHome: function () {
+            return this.selectedFolder == root;
+        },
+        parents: function () {
+            var p = [];
+            parent = this.selectedFolder;
+            while (parent && parent != root) {
+                p.unshift(parent);
+                parent = parent.parent;
+            }
+            return p;
         }
     },
-    select: function () {
-        navigationApp.selectFolder(this.model);
-    }
-  }
-})
-
-var filesApp = new Vue({
-    el: '#filesApp',
-    data: {
-        mediaItems: [],
-        selectedMedia: null,
-    },
-    mounted : function () {
-    },
     methods: {
-        loadFolder: function(folder) {
+        selectFolder: function (folder) {
+            this.selectedFolder = folder;
+            this.loadFolder(folder);
+        },
+        uploadUrl: function () {
+            return this.selectedFolder ? $('#uploadFiles').val() + "?path=" + encodeURIComponent(this.selectedFolder.path) : null;
+        },
+        selectRoot: function () {
+            this.selectFolder(this.root);
+        },
+        loadFolder: function (folder) {
             this.selectedMedia = null;
             var self = this;
             $.ajax({
                 url: $('#getMediaItemsUrl').val() + "?path=" + encodeURIComponent(folder.path),
                 method: 'GET',
                 success: function (data) {
-                    data.forEach(function(item) {
+                    data.forEach(function (item) {
                         item.open = false;
                     });
                     self.mediaItems = data;
@@ -114,48 +98,40 @@ var filesApp = new Vue({
                 }
             });
         },
-
-        selectMedia : function (media) {
+        selectMedia: function (media) {
             this.selectedMedia = media;
+        },
+        deleteFolder: function () {
+            var folder = this.selectedFolder
+            // The root folder can't be deleted
+            if (folder == this.root) {
+                return;
+            }
+
+            if (!confirm($('#deleteMessage').val())) {
+                return;
+            }
+
+            $.ajax({
+                url: $('#deleteFolderUrl').val() + "?path=" + encodeURIComponent(folder.path),
+                method: 'POST',
+                data: {
+                    __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val()
+                },
+                success: function (data) {
+                    var parent = folder.$parent;
+                    var array = parent.children;
+                    array.splice(array.indexOf(folder), 1);
+                    mediaApp.selectFolder(parent);
+                },
+                error: function (error) {
+                    alert(JSON.stringify(error));
+                }
+            });
         }
     }
 });
 
-
-
-var toolbarApp = new Vue({
-    el: '#media-toolbar',
-    data: {
-    },
-    computed: {
-        selectedFolder: function() {
-            return navigationApp.selectedFolder;
-        },
-        isHome: function() {
-            return navigationApp.selectedFolder == homeFolder;
-        },
-        parents: function() {
-          var p = [];
-          parent = this.selectedFolder;
-          while(parent && parent != homeFolder) {
-              p.unshift(parent);
-              parent = parent.parent;
-          }
-          return p;
-        },
-        selectedMedia: function() {
-            return filesApp.selectedMedia;
-        }
-    },
-    methods: {
-        selectRoot: function() {
-            navigationApp.selectRoot();
-        },
-        select: function(folder) {
-            navigationApp.selectFolder(folder);
-        }
-    }
-});
 $(function () {
     $('#fileupload').fileupload({
         dataType: 'json',

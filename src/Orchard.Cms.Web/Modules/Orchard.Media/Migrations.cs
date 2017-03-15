@@ -25,6 +25,7 @@ namespace Orchard.Media
                 .Stereotype("Media"));
 
             SchemaBuilder.CreateMapIndexTable(nameof(MediaPartIndex), table => table
+                .Column<string>("ContentItemId", c => c.WithLength(26))
                 .Column<string>("MimeType", c => c.WithLength(64))
                 .Column<string>("Folder", col => col.WithLength(1024))
                 .Column<string>("FileName", col => col.WithLength(1024))

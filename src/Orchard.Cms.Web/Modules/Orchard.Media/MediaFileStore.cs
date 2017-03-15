@@ -29,6 +29,11 @@ namespace Orchard.Media
             return _fileStore.GetFileAsync(subpath);
         }
 
+        public Task<IFile> GetFolderAsync(string subpath)
+        {
+            return _fileStore.GetFolderAsync(subpath);
+        }
+
         public Task<IFile> MapFileAsync(string absoluteUrl)
         {
             return _fileStore.MapFileAsync(absoluteUrl);

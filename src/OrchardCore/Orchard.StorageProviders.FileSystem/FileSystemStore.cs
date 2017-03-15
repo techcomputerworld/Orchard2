@@ -94,11 +94,27 @@ namespace Orchard.StorageProviders.FileSystem
 
         public Task<IFile> GetFileAsync(string subpath)
         {
-            var fileInfo = new FileInfo(GetPhysicalPath(subpath));
+            var physicalPath = GetPhysicalPath(subpath);
+
+            var fileInfo = new FileInfo(physicalPath);
 
             if (fileInfo.Exists)
             {
                 return Task.FromResult<IFile>(new FileSystemFile(subpath, _publicPathPrefix, fileInfo));
+            }
+
+            return Task.FromResult<IFile>(null);
+        }
+
+        public Task<IFile> GetFolderAsync(string subpath)
+        {
+            var physicalPath = GetPhysicalPath(subpath);
+
+            var directoryInfo = new DirectoryInfo(physicalPath);
+
+            if (directoryInfo.Exists)
+            {
+                return Task.FromResult<IFile>(new FileSystemFile(subpath, _publicPathPrefix, directoryInfo));
             }
 
             return Task.FromResult<IFile>(null);
