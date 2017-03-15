@@ -50,10 +50,11 @@
                     :key="media.name"
                     class="col-md-3"
                     v-on:click="selectMedia(media)">
-                    <div class="media-container-main-item" v-bind:class="{selected: selectedMedia == media}">
+                    <div class="media-container-main-item " v-bind:class="{selected: selectedMedia == media}">
                         <img v-bind:src="'/media/' + media.folder + '/' + media.fileName" />
                         <div class="media-container-main-item-title">
-                            <span>{{ media.fileName }}</span>
+                            <span class="media-filename">{{ media.fileName }}</span>
+                            <span class="media-contentItemId">{{ media.contentItemId }}</span>
                         </div>
                     </div>
                 </li>
@@ -97,7 +98,7 @@
 </div>
 
 <script type="text/x-template" id="folder-template">
-    <li>
+    <li :class="{selected: selected}">
         <div>
             <i v-on:click="toggle" class="expand fa fa-caret-right" v-bind:class="{open: open, closed: !open, empty: empty}"></i>
             <a href="#" v-on:click="select">

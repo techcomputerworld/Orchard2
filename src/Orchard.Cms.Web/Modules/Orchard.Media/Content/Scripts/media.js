@@ -5,13 +5,16 @@
 
 var root = {
     name: 'Media Library',
-    path: ''
+    path: '',
+    folder: '',
+    isDirectory: true
 }
 
 var bus = new Vue();
 
+
 // define the folder component
-var folderComponent = Vue.component('folder', {
+Vue.component('folder', {
     template: '#folder-template',
     props: {
         model: Object
@@ -20,7 +23,8 @@ var folderComponent = Vue.component('folder', {
         return {
             open: false,
             children: null,
-            parent: null
+            parent: null,
+            selected: false
         }
     },
     computed: {
@@ -35,14 +39,20 @@ var folderComponent = Vue.component('folder', {
                 var index = self.children && self.children.indexOf(folder)
                 if (index > -1) {
                     self.children.splice(index, 1)
+                    bus.$emit('folderDeleted');
                 }
             }
         });
-
+       
         bus.$on('addFolder', function (target, folder) {
             if (self.model == target) {
                 self.children.push(folder);
+                bus.$emit('folderAdded', folder);
             }
+        });
+        
+        bus.$on('folderSelected', function (folder) {
+            self.selected = self.model == folder;
         });
     },
     methods: {
@@ -72,10 +82,20 @@ var folderComponent = Vue.component('folder', {
 var mediaApp = new Vue({
     el: '#mediaApp',
     data: {
-        root: root,
         selectedFolder: root,
         mediaItems: [],
         selectedMedia: null
+    },
+    created: function() {
+        var self = this;
+
+        bus.$on('folderDeleted', function () {
+            self.selectRoot();
+        });
+
+        bus.$on('folderAdded', function (folder) {
+            self.selectFolder(folder);
+        });
     },
     computed: {
         isHome: function () {
@@ -89,12 +109,19 @@ var mediaApp = new Vue({
                 parent = parent.parent;
             }
             return p;
+        },
+        root: function () {
+            return root;
         }
+    },
+    mounted: function() {
+        this.selectRoot();
     },
     methods: {
         selectFolder: function (folder) {
             this.selectedFolder = folder;
             this.loadFolder(folder);
+            bus.$emit('folderSelected', folder);
         },
         uploadUrl: function () {
             return this.selectedFolder ? $('#uploadFiles').val() + "?path=" + encodeURIComponent(this.selectedFolder.path) : null;
@@ -124,8 +151,9 @@ var mediaApp = new Vue({
         },
         deleteFolder: function () {
             var folder = this.selectedFolder
+            var self = this;
             // The root folder can't be deleted
-            if (folder == this.root) {
+            if (folder == this.root.model) {
                 return;
             }
 

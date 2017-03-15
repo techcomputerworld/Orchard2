@@ -26,6 +26,15 @@
     list-style: none;
     padding-left: 0;
 
+    li.selected > div {
+        font-weight: bold;
+    }
+
+    li.selected > div > a > i.folder:before {
+        content: "\f07c";
+        color: $gray;
+    }
+
     div {
         padding: 0.2rem 0.2rem;
 
@@ -99,8 +108,7 @@
             }
 
             .selected {
-                @extend .card-inverse;
-                @extend .card-primary;
+                @extend .card-outline-primary;
             }
         }
 
@@ -117,9 +125,16 @@
 
 .media-container-main-item-title {
     @extend .card-block;
-    
-    span {
+
+    .media-filename {
         @extend .card-text;
+        @extend .small;
+    }
+
+    .media-contentItemId {
+        @extend .card-text;
+        @extend .text-muted;
+        @extend .small;
     }
 }
 
