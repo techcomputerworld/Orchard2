@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Orchard.StorageProviders;
@@ -32,6 +33,11 @@ namespace Orchard.Media
         public Task<IFile> GetFolderAsync(string subpath)
         {
             return _fileStore.GetFolderAsync(subpath);
+        }
+
+        public string GetPublicUrl(string subpath)
+        {
+            return _fileStore.GetPublicUrl(subpath);
         }
 
         public Task<IFile> MapFileAsync(string absoluteUrl)

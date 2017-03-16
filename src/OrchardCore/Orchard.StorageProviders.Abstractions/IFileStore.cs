@@ -21,6 +21,13 @@ namespace Orchard.StorageProviders
         Task<IFile> GetFolderAsync(string subpath);
 
         /// <summary>
+        /// Gets the public url of a file.
+        /// </summary>
+        /// <param name="subpath">The relative path within the file system.</param>
+        /// <returns>A string representing the public url of the media file.</returns>
+        string GetPublicUrl(string subpath);
+
+        /// <summary>
         /// Retrieves a within the file store for a public url.
         /// </summary>
         /// <param name="absoluteUrl">The public url of a media.</param>

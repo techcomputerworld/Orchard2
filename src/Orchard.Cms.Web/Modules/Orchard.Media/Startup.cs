@@ -9,11 +9,14 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Orchard.ContentManagement;
 using Orchard.Data.Migration;
+using Orchard.Environment.Extensions.Features.Attributes;
 using Orchard.Environment.Navigation;
 using Orchard.Environment.Shell;
 using Orchard.Media.Indexes;
 using Orchard.Media.Models;
+using Orchard.Media.Tokens;
 using Orchard.StorageProviders.FileSystem;
+using Orchard.Tokens.Handlebars;
 using YesSql.Core.Indexes;
 
 namespace Orchard.Media
@@ -71,6 +74,21 @@ namespace Orchard.Media
                 requestPath: (string.IsNullOrEmpty(shellSettings.RequestUrlPrefix) ? "" : "/" + shellSettings.RequestUrlPrefix) + "/media", 
                 mediaPath: env.ContentRootFileProvider.GetFileInfo(relativeMediaPath).PhysicalPath
                 );
+        }
+    }
+
+    [OrchardFeature("Orchard.Media.Tokens")]
+    public class TokensStartup : StartupBase
+    {
+        public override void ConfigureServices(IServiceCollection services)
+        {
+        }
+
+        public override void Configure(IApplicationBuilder app, IRouteBuilder routes, IServiceProvider serviceProvider)
+        {
+            var handlebars = serviceProvider.GetRequiredService<HandlebarsTokenizer>().Handlebar;
+
+            handlebars.RegisterMediaTokens();
         }
     }
 }

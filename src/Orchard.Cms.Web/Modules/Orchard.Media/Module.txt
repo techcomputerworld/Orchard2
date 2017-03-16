@@ -4,7 +4,15 @@ Author: The Orchard Team
 Website: http://orchardproject.net
 Version: 2.0.x
 OrchardVersion: 2.0.x
-Description: The media adds media management support.
-FeatureDescription: Media management.
-Dependencies: Orchard.Contents, Orchard.ContentTypes, Orchard.Title
-Category: Content Management
+Description: The media module adds media management support.
+Features:
+    Orchard.Media:
+        Name: Media
+        Dependencies: Orchard.Contents, Orchard.ContentTypes, Orchard.Title
+        Description: Media management.
+        Category: Content Management
+    Orchard.Media.Tokens:
+        Name: Media Tokens
+        Dependencies: Orchard.Media, Orchard.Tokens
+        Category: Tokens
+

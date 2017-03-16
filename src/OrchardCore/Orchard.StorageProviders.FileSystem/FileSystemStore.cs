@@ -202,25 +202,20 @@ namespace Orchard.StorageProviders.FileSystem
         /// <exception cref="ArgumentException">If the path is invalid.</exception>
         public static string ValidatePath(string basePath, string physicalPath)
         {
-            bool valid = false;
-
-            try
-            {
-                // Check that we are indeed within the storage directory boundaries
-                valid = Path.GetFullPath(physicalPath).StartsWith(Path.GetFullPath(basePath), StringComparison.OrdinalIgnoreCase);
-            }
-            catch
-            {
-                // Make sure that if invalid for medium trust we give a proper exception
-                valid = false;
-            }
-
+            // Check that we are indeed within the storage directory boundaries
+            var valid = Path.GetFullPath(physicalPath).StartsWith(Path.GetFullPath(basePath), StringComparison.OrdinalIgnoreCase);
+            
             if (!valid)
             {
                 throw new ArgumentException("Invalid path");
             }
 
             return physicalPath;
+        }
+
+        public string GetPublicUrl(string subpath)
+        {
+            return Combine(_publicPathPrefix, subpath).Replace('\\', '/');
         }
     }
 }
