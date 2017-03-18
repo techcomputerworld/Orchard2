@@ -26,7 +26,7 @@ namespace Orchard.OpenId
             var settings = _openIdService.GetOpenIdSettingsAsync().GetAwaiter().GetResult();
             if (!_openIdService.IsValidOpenIdSettings(settings))
             {
-                _logger.LogWarning("The OpenID module is not correctly configured.");
+                _logger.LogWarning("The OpenID Connect module is not correctly configured.");
                 return;
             }
 

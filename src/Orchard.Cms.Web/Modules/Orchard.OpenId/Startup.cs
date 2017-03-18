@@ -45,7 +45,7 @@ namespace Orchard.OpenId
             var settings = openIdService.GetOpenIdSettingsAsync().GetAwaiter().GetResult();
             if (!openIdService.IsValidOpenIdSettings(settings))
             {
-                _logger.LogWarning("The OpenID module is not correctly configured.");
+                _logger.LogWarning("The OpenID Connect module is not correctly configured.");
                 return;
             }
 
@@ -88,7 +88,7 @@ namespace Orchard.OpenId
             routes.MapAreaRoute(
                 name: "AdminOpenId",
                 areaName: "Orchard.OpenId",
-                template: "Admin/OpenIdApps/{action}/{id?}",
+                template: "Admin/OpenIdApps/{id?}/{action}",
                 defaults: new { controller = "Admin" }
             );
         }

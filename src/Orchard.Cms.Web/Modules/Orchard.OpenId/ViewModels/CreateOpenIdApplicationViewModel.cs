@@ -1,10 +1,6 @@
 ﻿using Orchard.OpenId.Models;
-using Orchard.Roles.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Orchard.OpenId.ViewModels
 {

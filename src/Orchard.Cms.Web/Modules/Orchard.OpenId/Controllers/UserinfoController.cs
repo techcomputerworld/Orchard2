@@ -12,12 +12,12 @@ using Orchard.Users.Models;
 namespace Orchard.OpenId.Controllers
 {
     [Authorize(ActiveAuthenticationSchemes = OAuthValidationDefaults.AuthenticationScheme)]
-    public class UserinfoController : Controller
+    public class UserInfoController : Controller
     {
         private readonly IStringLocalizer<AccessController> T;
         private readonly UserManager<User> _userManager;
 
-        public UserinfoController(
+        public UserInfoController(
             IStringLocalizer<AccessController> localizer,
             UserManager<User> userManager)
         {

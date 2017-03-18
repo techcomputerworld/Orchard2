@@ -17,7 +17,6 @@ using Orchard.Settings;
 
 namespace Orchard.OpenId.Controllers
 {
-    [Authorize]
     public class AdminController : Controller
     {
         private readonly IAuthorizationService _authorizationService;

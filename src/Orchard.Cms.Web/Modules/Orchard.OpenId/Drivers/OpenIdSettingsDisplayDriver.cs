@@ -67,7 +67,7 @@ namespace Orchard.OpenId.Drivers
                 model.AllowRefreshTokenFlow = settings.AllowRefreshTokenFlow;
                 model.AllowImplicitFlow = settings.AllowImplicitFlow;
                 model.AllowHybridFlow = settings.AllowHybridFlow;
-            }).Location("Content:2").OnGroup("open id");
+            }).Location("Content:2").OnGroup(SettingsGroupId);
         }
 
         public override async Task<IDisplayResult> UpdateAsync(OpenIdSettings settings, IUpdateModel updater, string groupId)
