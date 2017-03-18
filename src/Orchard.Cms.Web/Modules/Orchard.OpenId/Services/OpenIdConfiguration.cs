@@ -69,7 +69,7 @@ namespace Orchard.OpenId
             }
             if (settings.EnableUserInfoEndpoint)
             {
-                options.UserinfoEndpointPath = "/Orchard.OpenId/Userinfo/Me";
+                options.UserinfoEndpointPath = "/Orchard.OpenId/UserInfo/Me";
             }
             if (settings.AllowPasswordFlow)
             {
