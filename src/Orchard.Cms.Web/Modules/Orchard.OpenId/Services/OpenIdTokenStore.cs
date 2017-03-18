@@ -108,6 +108,7 @@ namespace Orchard.OpenId.Services
 
         public Task SetAuthorizationAsync(OpenIdToken token, string identifier, CancellationToken cancellationToken)
         {
+            // We may implement it in the future when adding "authorization/consent support" in the OpenID module
             throw new NotImplementedException();
         }
 

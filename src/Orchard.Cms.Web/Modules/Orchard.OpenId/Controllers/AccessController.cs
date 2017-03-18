@@ -119,7 +119,7 @@ namespace Orchard.OpenId.Controllers
 
             if (application.SkipConsent)
             {
-                return await IssueAccessIdentityTokens(request);
+                return await IssueAccessIdentityTokensAsync(request);
             }
 
             return View(new AuthorizeViewModel
@@ -153,7 +153,7 @@ namespace Orchard.OpenId.Controllers
                 return NotFound();
             }
 
-            return await IssueAccessIdentityTokens(request);
+            return await IssueAccessIdentityTokensAsync(request);
         }
 
         [ActionName(nameof(Authorize))]
@@ -462,7 +462,7 @@ namespace Orchard.OpenId.Controllers
             return SignIn(ticket.Principal, ticket.Properties, ticket.AuthenticationScheme);
         }
 
-        private async Task<IActionResult> IssueAccessIdentityTokens(OpenIdConnectRequest request)
+        private async Task<IActionResult> IssueAccessIdentityTokensAsync(OpenIdConnectRequest request)
         {
             // Retrieve the profile of the logged in user.
             var user = await _userManager.GetUserAsync(User);

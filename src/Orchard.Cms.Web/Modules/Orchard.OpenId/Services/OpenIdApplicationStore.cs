@@ -62,7 +62,7 @@ namespace Orchard.OpenId.Services
                 throw new ArgumentNullException(nameof(application));
             }
 
-            return Task.FromResult(application.Type.ToString().ToLower());
+            return Task.FromResult(application.Type.ToString().ToLowerInvariant());
         }
 
         public Task<string> GetDisplayNameAsync(OpenIdApplication application, CancellationToken cancellationToken)
