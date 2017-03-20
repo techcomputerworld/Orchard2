@@ -21,6 +21,7 @@
         "Orchard.DynamicCache",
         "Orchard.Modules",
         "Orchard.Navigation",
+        "Orchard.OpenId",
         "Orchard.Recipes",
         "Orchard.Resources",
         "Orchard.Roles",
@@ -28,7 +29,6 @@
         "Orchard.Tenants",
         "Orchard.Themes",
         "Orchard.Users",
-        "Orchard.OpenId",
 
         // Themes
         "TheTheme",
