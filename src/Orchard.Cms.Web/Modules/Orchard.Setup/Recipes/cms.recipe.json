@@ -29,6 +29,7 @@
         "Orchard.Tenants",
         "Orchard.Themes",
         "Orchard.Users",
+        "Orchard.OpenId",
 
         // Content Management
         "Orchard.Alias",
@@ -44,7 +45,6 @@
         "Orchard.Feeds",
         "Orchard.Flows",
         "Orchard.Indexing",
-        "Orchard.OpenId",
         "Orchard.Lists",
         "Orchard.Lucene",
         "Orchard.Menu",

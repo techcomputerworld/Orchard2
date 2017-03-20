@@ -28,6 +28,7 @@
         "Orchard.Tenants",
         "Orchard.Themes",
         "Orchard.Users",
+        "Orchard.OpenId",
 
         // Themes
         "TheTheme",
